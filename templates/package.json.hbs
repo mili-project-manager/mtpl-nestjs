@@ -1,0 +1,51 @@
+{
+  "main": "index.js",
+  "scripts": {
+    "clean": "rm -rf ./dist/*",
+    "test": "ava",
+    "test:debug": "ava --verbose",
+    "test:update": "ava -u",
+    "report": "nyc --reporter=html --reporter=text-summary --skip-full ava",
+    "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
+    "start": "node dist/index.js",
+    "prepublishOnly": "npm test && npm run build",
+    "postpublish": "git push",
+    "prebuild": "npm run clean",
+    "build": "ttsc",
+    "postbuild": "npm run copyfile",
+    "prewatch": "npm run copyfile",
+    "watch": "NODE_ENV=local node -r source-map-support/register ./build/watch.js",
+    "copyfile": "npm run copyfile:js && npm run copyfile:dts",
+    "copyfile:js": "copyfiles -e \"@(build|dist)/**/*.js\" **/*.js dist",
+    "copyfile:dts": "copyfiles -e \"@(build|dist)/**/*.d.ts\" **/*.d.ts dist"
+  },
+  "dependencies": {
+    "@miaooo/pika": "0.0.5",
+    "@nestjs/common": "^7.6.15",
+    "@nestjs/core": "^7.6.15",
+    "@nestjs/platform-express": "^7.6.15",
+    "@nestjs/swagger": "^4.8.0",
+    "@nestjs/typeorm": "^7.1.5",
+    "@types/node": "^14.14.44",
+    "@types/ramda": "^0.27.40",
+    "class-transformer": "^0.4.0",
+    "class-validator": "^0.13.1",
+    "morgan": "^1.10.0",
+    "mysql": "^2.18.1",
+    "ramda": "^0.27.1",
+    "source-map-support": "^0.5.19",
+    "typeorm": "^0.2.32"
+  },
+  "devDependencies": {
+    "ava": "^3.15.0",
+    "chalk": "^4.1.1",
+    "copyfiles": "^2.4.1",
+    "husky": "^5.1.1",
+    "nodemon": "^2.0.7",
+    "ts-node": "^9.1.1",
+    "ttypescript": "^1.5.12",
+    "typescript": "^4.2.4",
+    "typescript-nestjs-swagger-plugin": "^1.1.1",
+    "typescript-transform-paths": "^2.2.3"
+  }
+}
